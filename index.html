@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriTrade — Gestion des achats cacao & hévéa</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Icônes FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- En-tête / Navigation -->
+    <header>
+        <div class="logo">
+            <h2>Agri<span>Trade</span></h2>
+        </div>
+        <nav aria-label="Navigation principale">
+            <ul>
+                <li><a href="#accueil">Accueil</a></li>
+                <li><a href="#cours">Cours du Jour</a></li>
+                <li><a href="#gestion">Gestion des achats</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Section Hero -->
+    <section id="accueil" class="hero">
+        <img
+            class="hero-image"
+            src="https://images.pexels.com/photos/31283909/pexels-photo-31283909/free-photo-of-cocoa-farmer-drying-beans-in-rural-ghana.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=1800"
+            alt="Un paysan ghanéen fait sécher des fèves de cacao"
+        >
+        <div class="hero-content">
+            <span class="hero-tag"><i class="fa-solid fa-leaf"></i> Au service des producteurs</span>
+            <h1>Valorisons ensemble le <span>cacao</span> et l'<span>hévéa</span></h1>
+            <p>Suivez les achats de cacao et d'hévéa, les producteurs et les paiements depuis un seul espace.</p>
+            <a href="#gestion" class="btn-primary">Gérer les achats</a>
+        </div>
+    </section>
+
+    <!-- Section Cours du jour -->
+    <section id="cours" class="section">
+        <h2><i class="fa-solid fa-chart-line"></i> Cours du Jour</h2>
+        <div class="cards-container">
+            <div class="card cacao">
+                <h3><i class="fa-solid fa-seedling"></i> Cacao (Grade 1)</h3>
+                <p class="prix">1 500 FCFA <span>/ kg</span></p>
+                <span class="status st-up">Tendance à la hausse</span>
+            </div>
+            <div class="card hevea">
+                <h3><i class="fa-solid fa-tree"></i> Hévéa (Fond de tasse 100%)</h3>
+                <p class="prix">420 FCFA <span>/ kg</span></p>
+                <span class="status st-stable">Prix officiel fixe</span>
+            </div>
+        </div>
+    </section>
+
+    <main id="gestion" class="section bg-light management">
+        <div class="section-heading">
+            <div>
+                <span class="eyebrow">Espace entreprise</span>
+                <h2><i class="fa-solid fa-clipboard-list"></i> Gestion des achats</h2>
+                <p>Chaque achat est classé dans le registre de son village.</p>
+                <span class="base-cooperative"><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Coopérative : Sanhoukro</span>
+            </div>
+        </div>
+
+        <div class="village-register-bar">
+            <label for="filtre-village">Registre à consulter</label>
+            <select id="filtre-village">
+                <option value="">Tous les villages</option>
+                <option value="ebikro">Ebikro</option>
+                <option value="yaou">Yaou</option>
+                <option value="ketesso">Ketesso</option>
+                <option value="bianouan">Bianouan</option>
+            </select>
+            <span id="registre-selection" aria-live="polite">Vue générale de la coopérative</span>
+        </div>
+
+        <div class="stats-grid" aria-label="Résumé des achats">
+            <article class="stat-card">
+                <span>Producteurs enregistrés</span>
+                <strong id="stat-producteurs">0</strong>
+                <i class="fa-solid fa-users" aria-hidden="true"></i>
+            </article>
+            <article class="stat-card">
+                <span>Poids total acheté</span>
+                <strong id="stat-poids">0 kg</strong>
+                <i class="fa-solid fa-weight-hanging" aria-hidden="true"></i>
+            </article>
+            <article class="stat-card">
+                <span>Montant total payé</span>
+                <strong id="stat-paye">0 FCFA</strong>
+                <i class="fa-solid fa-money-bill-wave" aria-hidden="true"></i>
+            </article>
+        </div>
+
+        <div class="management-layout">
+            <section class="panel form-panel" aria-labelledby="form-title">
+                <h3 id="form-title"><i class="fa-solid fa-user-plus"></i> Nouvel achat</h3>
+                <p class="panel-intro">Les champs marqués d'un * sont obligatoires.</p>
+                <form id="achat-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="village">Village *</label>
+                            <select id="village" name="village" required>
+                                <option value="" selected disabled>Choisir un sous-village</option>
+                                <option value="Ebikro">Ebikro</option>
+                                <option value="Yaou">Yaou</option>
+                                <option value="Ketesso">Ketesso</option>
+                                <option value="Bianouan">Bianouan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="nom">Nom *</label>
+                            <input id="nom" name="nom" type="text" autocomplete="family-name" required maxlength="80" placeholder="Nom du producteur">
+                        </div>
+                        <div class="form-group">
+                            <label for="prenom">Prénom *</label>
+                            <input id="prenom" name="prenom" type="text" autocomplete="given-name" required maxlength="80" placeholder="Prénom du producteur">
+                        </div>
+                        <div class="form-group">
+                            <label for="telephone">Numéro de téléphone *</label>
+                            <input id="telephone" name="telephone" type="tel" autocomplete="tel" required maxlength="25" placeholder="Ex. 07 00 00 00 00">
+                        </div>
+                        <div class="form-group">
+                            <label for="produit">Produit *</label>
+                            <select id="produit" name="produit" required>
+                                <option value="cacao">Cacao — 1 500 FCFA/kg</option>
+                                <option value="hevea">Hévéa — 420 FCFA/kg</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="poids">Poids (kg) *</label>
+                            <input id="poids" name="poids" type="number" min="0.01" step="0.01" required placeholder="Ex. 250">
+                        </div>
+                        <div class="form-group">
+                            <label for="montant-paye">Montant payé (FCFA) *</label>
+                            <input id="montant-paye" name="montantPaye" type="number" min="0" step="1" required placeholder="Calculé selon le poids">
+                            <small id="montant-aide">Calculé automatiquement selon le produit et le poids.</small>
+                        </div>
+                    </div>
+                    <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
+                    <button type="submit" class="btn-primary submit-button"><i class="fa-solid fa-plus"></i> Enregistrer l'achat</button>
+                </form>
+            </section>
+
+            <section class="panel records-panel" aria-labelledby="records-title">
+                <div class="records-heading">
+                    <div>
+                        <h3 id="records-title"><i class="fa-solid fa-list"></i> Historique des achats</h3>
+                        <p class="panel-intro">Consultez les achats village par village.</p>
+                    </div>
+                    <label class="search-box" for="recherche">
+                        <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                        <input id="recherche" type="search" placeholder="Rechercher un producteur…" aria-label="Rechercher un producteur">
+                    </label>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Village</th>
+                                <th>Producteur</th>
+                                <th>Téléphone</th>
+                                <th>Produit</th>
+                                <th>Poids</th>
+                                <th>Montant payé</th>
+                                <th><span class="sr-only">Actions</span></th>
+                            </tr>
+                        </thead>
+                        <tbody id="achats-liste"></tbody>
+                    </table>
+                    <p id="liste-vide" class="empty-state">Aucun achat enregistré pour le moment.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
