@@ -13,7 +13,7 @@
     <!-- En-tête / Navigation -->
     <header>
         <div class="logo">
-            <h2>Agri<span>Trade</span></h2>
+            <a href="#accueil" aria-label="AgriTrade Sanhoukro, accueil"><i class="fa-solid fa-leaf" aria-hidden="true"></i> Agri<span>Trade</span></a>
         </div>
         <nav aria-label="Navigation principale">
             <ul>
@@ -33,27 +33,49 @@
         >
         <div class="hero-content">
             <span class="hero-tag"><i class="fa-solid fa-leaf"></i> Au service des producteurs</span>
-            <h1>Valorisons ensemble le <span>cacao</span> et l'<span>hévéa</span></h1>
-            <p>Suivez les achats de cacao et d'hévéa, les producteurs et les paiements depuis un seul espace.</p>
+            <h1>AgriTrade <span>Sanhoukro</span></h1>
+            <p>La coopérative accompagne les producteurs de Sanhoukro et de ses sous-villages dans la collecte du cacao et de l'hévéa. Notre objectif : suivre clairement les livraisons et les paiements, village par village.</p>
             <a href="#gestion" class="btn-primary">Gérer les achats</a>
         </div>
     </section>
 
-    <!-- Section Cours du jour -->
     <section id="cours" class="section">
-        <h2><i class="fa-solid fa-chart-line"></i> Cours du Jour</h2>
+        <h2><i class="fa-solid fa-chart-line"></i> Tarifs de référence</h2>
+        <p class="section-description">Prix fixés par le gouvernement et saisis par les responsables de la coopérative. Vérifiez leur date d’application avant chaque achat.</p>
+        <p class="price-updated">Dernière mise à jour : <strong id="date-prix">Non renseignée</strong></p>
         <div class="cards-container">
             <div class="card cacao">
                 <h3><i class="fa-solid fa-seedling"></i> Cacao (Grade 1)</h3>
-                <p class="prix">1 500 FCFA <span>/ kg</span></p>
-                <span class="status st-up">Tendance à la hausse</span>
+                <p class="prix"><span id="prix-cacao">1 500</span> FCFA <span>/ kg</span></p>
+                <span class="status st-official">Tarif gouvernemental</span>
             </div>
             <div class="card hevea">
                 <h3><i class="fa-solid fa-tree"></i> Hévéa (Fond de tasse 100%)</h3>
-                <p class="prix">420 FCFA <span>/ kg</span></p>
-                <span class="status st-stable">Prix officiel fixe</span>
+                <p class="prix"><span id="prix-hevea">420</span> FCFA <span>/ kg</span></p>
+                <span class="status st-official">Tarif gouvernemental</span>
             </div>
         </div>
+
+        <form id="tarifs-form" class="panel price-management">
+            <div>
+                <h3><i class="fa-solid fa-sliders"></i> Mettre à jour les tarifs</h3>
+                <p class="panel-intro">Saisissez les nouveaux prix officiels et leur date d’application.</p>
+            </div>
+            <div class="price-inputs">
+                <label for="prix-cacao-saisie">Cacao (FCFA/kg)
+                    <input id="prix-cacao-saisie" type="number" min="1" step="1" required>
+                </label>
+                <label for="prix-hevea-saisie">Hévéa (FCFA/kg)
+                    <input id="prix-hevea-saisie" type="number" min="1" step="1" required>
+                </label>
+                <label for="date-prix-saisie">Date d’application
+                    <input id="date-prix-saisie" type="date" required>
+                </label>
+                <button class="btn-primary" type="submit"><i class="fa-solid fa-floppy-disk"></i> Enregistrer les tarifs</button>
+            </div>
+            <p class="local-notice"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Pour le moment, les tarifs sont enregistrés dans ce navigateur uniquement. La synchronisation pour tous les villages nécessite la base de données partagée.</p>
+            <p id="tarifs-message" class="form-message" role="status" aria-live="polite"></p>
+        </form>
     </section>
 
     <main id="gestion" class="section bg-light management">
@@ -78,7 +100,7 @@
             <span id="registre-selection" aria-live="polite">Vue générale de la coopérative</span>
         </div>
 
-        <div class="stats-grid" aria-label="Résumé des achats">
+        <div class="stats-grid" aria-label="Résumé des achats du registre sélectionné">
             <article class="stat-card">
                 <span>Producteurs enregistrés</span>
                 <strong id="stat-producteurs">0</strong>
@@ -94,7 +116,27 @@
                 <strong id="stat-paye">0 FCFA</strong>
                 <i class="fa-solid fa-money-bill-wave" aria-hidden="true"></i>
             </article>
+            <article class="stat-card product-stat">
+                <span>Cacao acheté</span>
+                <strong id="stat-cacao">0 kg</strong>
+                <i class="fa-solid fa-seedling" aria-hidden="true"></i>
+            </article>
+            <article class="stat-card product-stat">
+                <span>Hévéa acheté</span>
+                <strong id="stat-hevea">0 kg</strong>
+                <i class="fa-solid fa-tree" aria-hidden="true"></i>
+            </article>
         </div>
+
+        <section class="panel recent-panel" aria-labelledby="recent-title">
+            <div class="records-heading">
+                <div>
+                    <h3 id="recent-title"><i class="fa-solid fa-clock-rotate-left"></i> Dernières opérations</h3>
+                    <p class="panel-intro">Les cinq achats les plus récents du registre sélectionné.</p>
+                </div>
+            </div>
+            <div class="recent-list" id="dernieres-operations"></div>
+        </section>
 
         <div class="management-layout">
             <section class="panel form-panel" aria-labelledby="form-title">
@@ -141,8 +183,13 @@
                             <small id="montant-aide">Calculé automatiquement selon le produit et le poids.</small>
                         </div>
                     </div>
+                    <p id="recapitulatif-achat" class="purchase-summary" aria-live="polite">Le montant estimé s’affichera après la saisie du poids.</p>
                     <div id="form-message" class="form-message" role="status" aria-live="polite"></div>
-                    <button type="submit" class="btn-primary submit-button"><i class="fa-solid fa-plus"></i> Enregistrer l'achat</button>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary submit-button" id="submit-achat"><i class="fa-solid fa-plus"></i> Enregistrer l'achat</button>
+                        <button type="reset" class="btn-secondary" id="vider-formulaire"><i class="fa-solid fa-eraser"></i> Vider</button>
+                        <button type="button" class="btn-secondary cancel-edit" id="annuler-modification" hidden>Annuler la modification</button>
+                    </div>
                 </form>
             </section>
 
@@ -152,10 +199,28 @@
                         <h3 id="records-title"><i class="fa-solid fa-list"></i> Historique des achats</h3>
                         <p class="panel-intro">Consultez les achats village par village.</p>
                     </div>
+                </div>
+                <div class="history-tools">
                     <label class="search-box" for="recherche">
                         <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                        <input id="recherche" type="search" placeholder="Rechercher un producteur…" aria-label="Rechercher un producteur">
+                        <input id="recherche" type="search" placeholder="Rechercher…" aria-label="Rechercher un producteur ou un téléphone">
                     </label>
+                    <label class="filter-field" for="filtre-produit">Produit
+                        <select id="filtre-produit">
+                            <option value="">Tous</option>
+                            <option value="cacao">Cacao</option>
+                            <option value="hevea">Hévéa</option>
+                        </select>
+                    </label>
+                    <label class="filter-field" for="date-debut">Du
+                        <input id="date-debut" type="date">
+                    </label>
+                    <label class="filter-field" for="date-fin">Au
+                        <input id="date-fin" type="date">
+                    </label>
+                    <button type="button" class="btn-secondary" id="effacer-filtres">Effacer filtres</button>
+                    <button type="button" class="btn-secondary" id="exporter-csv"><i class="fa-solid fa-file-csv"></i> Exporter CSV</button>
+                    <button type="button" class="btn-secondary" id="imprimer-registre"><i class="fa-solid fa-print"></i> Imprimer</button>
                 </div>
                 <div class="table-wrap">
                     <table>
@@ -168,7 +233,7 @@
                                 <th>Produit</th>
                                 <th>Poids</th>
                                 <th>Montant payé</th>
-                                <th><span class="sr-only">Actions</span></th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="achats-liste"></tbody>
@@ -178,6 +243,24 @@
             </section>
         </div>
     </main>
+
+    <dialog id="details-dialog" class="details-dialog">
+        <div class="dialog-heading">
+            <h2>Détails de l'achat</h2>
+            <button type="button" class="dialog-close" id="fermer-details" aria-label="Fermer">×</button>
+        </div>
+        <dl id="details-achat" class="details-list"></dl>
+        <button type="button" class="btn-primary" id="imprimer-recu"><i class="fa-solid fa-receipt"></i> Imprimer le reçu</button>
+    </dialog>
+
+    <footer class="site-footer">
+        <div>
+            <strong><i class="fa-solid fa-leaf" aria-hidden="true"></i> AgriTrade Sanhoukro</strong>
+            <p>Au service des producteurs de cacao et d'hévéa.</p>
+        </div>
+        <p>Contact : veuillez vous adresser aux responsables de la coopérative à Sanhoukro.</p>
+        <small>Les achats sont enregistrés localement sur cet appareil.</small>
+    </footer>
 
     <script src="script.js"></script>
 </body>
